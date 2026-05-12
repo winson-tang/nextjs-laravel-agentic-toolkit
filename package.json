@@ -1,0 +1,27 @@
+{
+  "name": "sycle-agentic-toolkit",
+  "version": "0.1.0",
+  "description": "Claude Code sub-agent and skill toolkit for disciplined, HIPAA-aware agentic development on TypeScript/Node projects.",
+  "private": true,
+  "workspaces": [
+    "demo"
+  ],
+  "scripts": {
+    "demo:dev": "npm run dev --workspace=demo",
+    "demo:test": "npm test --workspace=demo",
+    "demo:e2e": "npm run e2e --workspace=demo",
+    "demo:typecheck": "npm run typecheck --workspace=demo",
+    "demo:lint": "npm run lint --workspace=demo"
+  },
+  "keywords": [
+    "claude-code",
+    "agents",
+    "skills",
+    "sycle",
+    "agentic-development",
+    "tdd",
+    "hipaa"
+  ],
+  "license": "UNLICENSED",
+  "author": "Winson Tang"
+}
