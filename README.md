@@ -28,7 +28,7 @@ sycle-agentic-toolkit/
 │   │   └── context-steward.md     ← keeps CONTEXT.md fresh, prunes stale info
 │   │
 │   └── skills/                    ← skills (markdown checklists, dual-use with tooling or by hand)
-│       ├── tdd/SKILL.md           ← Matt Pocock's red-green-refactor skill
+│       ├── tdd/SKILL.md           ← TDD red-green-refactor skill
 │       ├── bdd-spec-parser/SKILL.md
 │       ├── failure-scenario-design/SKILL.md
 │       ├── hipaa-audit/SKILL.md
@@ -95,11 +95,3 @@ See `docs/ORCHESTRATION_PATTERNS.md` for the full pipeline diagram and sequencin
 See `docs/HOW_TO_USE.md` for setup options (with Claude Code, without, or in a different IDE) and the full adoption guide.
 
 A `private/` folder (gitignored) can hold personal reference material such as cheat sheets and session notes.
-
-## Credits
-
-The TDD skill is adapted from Matt Pocock's [`mattpocock/skills`](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) repository, with attribution preserved in `.claude/skills/tdd/SKILL.md`.
-
-## License
-
-UNLICENSED.

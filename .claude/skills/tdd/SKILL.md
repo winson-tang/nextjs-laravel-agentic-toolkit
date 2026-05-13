@@ -1,12 +1,6 @@
 ---
 name: tdd
-description: Apply to every implementation task. Drives red-green-refactor discipline. Adapted from Matt Pocock's TDD skill. Do not write implementation code without a failing test first.
----
-
-## Attribution
-
-Adapted from Matt Pocock's TDD skill (mattpocock/skills). Core discipline preserved; examples updated for this codebase.
-
+description: Apply to every implementation task. Drives red-green-refactor discipline. Do not write implementation code without a failing test first.
 ---
 
 ## The Three Phases
