@@ -41,4 +41,7 @@ private/
 # Claude Code local settings
 .claude/settings.local.json
 
+# Current-cycle planning scratchpad -- use /plans/ for historical records
+PLAN.md
+
 .next/

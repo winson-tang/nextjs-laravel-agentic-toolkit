@@ -62,6 +62,7 @@ See `.claude/skills/agent-orchestration/SKILL.md` for the full playbook.
 - **Auth:** session-based (Sycle has SSO); never roll your own.
 - **Database:** Postgres in new services, MySQL where the legacy lives. Use migrations, never raw `ALTER` in code paths.
 - **Testing:** Jest for unit/integration, Playwright for e2e. Accessibility checks via `@axe-core/playwright` on any page rendering user content.
+- **Planning files:** `PLAN.md` is the live scratchpad for the current cycle (gitignored). When a feature ships, the planner agent copies the final plan to `plans/YYYY-MM-DD-<feature-slug>.md` before deleting PLAN.md.
 
 ## What to read first
 
@@ -69,7 +70,7 @@ When starting a session:
 
 1. This file.
 2. `CONTEXT.md` for the live project state (architecture, module map, conventions, deprecations).
-3. `PLAN.md` if you are mid-feature.
+3. `PLAN.md` if you are mid-feature (ephemeral -- gitignored; see `/plans/` for completed plan history).
 4. The `agent-orchestration` skill if you need to remember the pipeline.
 
 ## What we never do
