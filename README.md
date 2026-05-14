@@ -1,10 +1,10 @@
 # sycle-agentic-toolkit
 
-A Claude Code sub-agent and skill toolkit for disciplined, HIPAA-aware agentic development on TypeScript/Node projects.
+A Claude Code sub-agent and skill toolkit for disciplined, HIPAA-aware agentic development on TypeScript/Node and PHP/Laravel projects.
 
 It encodes a multi-agent operating model: plan, test, implement, review, audit, document, integrate. Each feature follows the same pipeline regardless of who is driving. When an agent makes a mistake, the fix is two diffs: the code fix and the agent-system fix so the same class of mistake can't recur.
 
-It ships with a minimal Next.js + Node demo project so the pipeline can be exercised against real code.
+It ships with two demo projects so the pipeline can be exercised against real code: a Next.js + Node demo (TypeScript) and a Laravel demo (PHP).
 
 ## What's in here
 
@@ -39,26 +39,49 @@ sycle-agentic-toolkit/
 │   ├── ORCHESTRATION_PATTERNS.md  ← how agents compose (sequence, parallel, "fix the agent")
 │   └── HOW_TO_USE.md              ← setup options and adoption guide
 │
-└── demo/                          ← minimal Next.js + API + Playwright/Jest scaffold
+├── demo/                          ← Next.js + API + Playwright/Jest scaffold (TypeScript)
+│   ├── README.md
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── jest.config.js
+│   ├── playwright.config.ts
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── api/appointments/route.ts
+│   │   └── lib/
+│   │       ├── transcripts.ts     ← idempotent upload, vendor retry, tenant isolation
+│   │       ├── logger.ts          ← structured logger with PHI redaction
+│   │       └── redact.ts          ← PHI pattern redaction (SSN, DOB, MRN, email, phone)
+│   ├── specs/
+│   │   └── appointment-recording.feature
+│   └── tests/
+│       ├── unit/redact.test.ts
+│       ├── integration/transcripts.test.ts
+│       └── e2e/appointment-flow.spec.ts
+│
+└── demo-laravel/                  ← Laravel API scaffold (PHP) -- same domain, same pipeline
     ├── README.md
-    ├── package.json
-    ├── tsconfig.json
-    ├── jest.config.js
-    ├── playwright.config.ts
+    ├── composer.json
+    ├── phpunit.xml
     ├── app/
-    │   ├── layout.tsx
-    │   ├── page.tsx
-    │   ├── api/appointments/route.ts
-    │   └── lib/
-    │       ├── transcripts.ts     ← idempotent upload, vendor retry, tenant isolation
-    │       ├── logger.ts          ← structured logger with PHI redaction
-    │       └── redact.ts          ← PHI pattern redaction (SSN, DOB, MRN, email, phone)
+    │   ├── Http/Controllers/Api/AppointmentsController.php
+    │   ├── Http/Requests/UploadAudioRequest.php
+    │   ├── Models/Transcript.php  ← UUID PK, tenant_id, idempotency_key, status, text
+    │   ├── Services/
+    │   │   ├── TranscriptService.php  ← upload, retry, tenant-scoped fetch
+    │   │   └── VendorServiceInterface.php
+    │   └── Support/
+    │       ├── AuditLogger.php    ← PHI-redacted structured logging
+    │       └── PhiRedactor.php    ← same PHI patterns as TS redact.ts
+    ├── database/migrations/
+    │   └── 2026_05_14_180549_create_transcripts_table.php
+    ├── routes/api.php             ← POST /api/appointments/upload, GET /api/appointments/{id}
     ├── specs/
     │   └── appointment-recording.feature
     └── tests/
-        ├── unit/redact.test.ts
-        ├── integration/transcripts.test.ts
-        └── e2e/appointment-flow.spec.ts
+        ├── Feature/TranscriptServiceTest.php
+        └── Unit/PhiRedactorTest.php
 ```
 
 ## Quick start
@@ -70,8 +93,11 @@ cd sycle-agentic-toolkit
 # Open in Claude Code -- auto-loads CLAUDE.md, .claude/agents, .claude/skills
 claude
 
-# Optional: run the demo project
+# Optional: run the TypeScript demo
 cd demo && npm install && npm test
+
+# Optional: run the PHP/Laravel demo
+cd demo-laravel && composer install && php artisan migrate && php artisan test
 ```
 
 Inside a Claude Code session, verify everything loaded:
