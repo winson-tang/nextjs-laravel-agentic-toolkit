@@ -14,7 +14,8 @@ You examine the diff for HIPAA compliance, PHI handling, tenant isolation, auth,
 
 You MUST run on any diff touching:
 - Patient data tables, transcripts, appointments, audio, or any field that could contain PHI
-- `demo/app/lib/transcripts.ts`, `demo/app/lib/redact.ts`, `demo/app/lib/logger.ts`
+- **[TS]** `demo/app/lib/transcripts.ts`, `demo/app/lib/redact.ts`, `demo/app/lib/logger.ts`
+- **[PHP]** `demo-laravel/app/Services/TranscriptService.php`, `demo-laravel/app/Support/PhiRedactor.php`, `demo-laravel/app/Support/AuditLogger.php`
 - API route handlers that accept or return patient data
 - Auth middleware or session handling
 - Any import of a third-party vendor SDK
@@ -34,14 +35,25 @@ Work through all 12 items in the `hipaa-audit` skill checklist (6 categories):
 
 Beyond HIPAA, check:
 
+**[TS] TypeScript:**
 - [ ] No `dangerouslySetInnerHTML` without an inline comment justifying it
 - [ ] No secrets, tokens, or API keys in any file (including test files and config files)
 - [ ] No `console.log` in committed code -- use the structured logger from `app/lib/logger.ts`
 - [ ] Input validation present at every API route entry point: Zod `Schema.parse(body)` before any business logic runs
 - [ ] No SQL injection vector: parameterized queries only (no string concatenation into query strings)
+- [ ] No `eval()` or `new Function()` with user-provided input
+
+**[PHP] Laravel:**
+- [ ] No `{!! $variable !!}` (unescaped Blade output) without an inline comment justifying it -- this is the PHP equivalent of `dangerouslySetInnerHTML`
+- [ ] No secrets, tokens, or API keys in any file -- all must reference `env('KEY')` or config values backed by env vars
+- [ ] No bare `Log::` calls in committed code -- use `AuditLogger` from `App\Support\AuditLogger`
+- [ ] Form Request class present on every controller method that accepts external input -- `$request->validated()` used, never `$request->all()` directly
+- [ ] No SQL injection vector: Eloquent query builder / parameterized bindings only -- no `whereRaw()` or `DB::statement()` with user input concatenated in
+- [ ] No `eval()` with user-provided content
+
+**All languages:**
 - [ ] No `--no-verify` suggested anywhere in the diff or comments
 - [ ] No hardcoded passwords or auth tokens (grep the diff for `password =`, `token =`, `secret =`)
-- [ ] No `eval()` or `new Function()` with user-provided input
 
 ## Output Format
 
@@ -88,11 +100,17 @@ VERDICT: REQUEST CHANGES
 
 ## Canonical PASS Patterns
 
-Reference these files for what correct looks like:
+**[TS] TypeScript -- reference these files for what correct looks like:**
 - **PHI redaction:** `demo/app/lib/redact.ts` -- `redactPhi` and `redactValue` cover SSN, DOB, MRN, email, phone
 - **Structured logging:** `demo/app/lib/logger.ts` -- all inputs pass through `redactValue` before emission
-- **Tenant isolation:** `demo/app/lib/transcripts.ts` line `getById` -- explicit `t.tenantId !== tenantId` check
+- **Tenant isolation:** `demo/app/lib/transcripts.ts` `getById` -- explicit `t.tenantId !== tenantId` check
 - **Input validation:** `demo/app/api/appointments/route.ts` -- `UploadSchema.parse(body)` before any service call
+
+**[PHP] Laravel -- reference these files for what correct looks like:**
+- **PHI redaction:** `demo-laravel/app/Support/PhiRedactor.php` -- `PhiRedactor::redact()` and `::redactValue()` cover the same pattern set
+- **Structured logging:** `demo-laravel/app/Support/AuditLogger.php` -- all context passes through `PhiRedactor::redactValue()` before `Log::info()`
+- **Tenant isolation:** `demo-laravel/app/Services/TranscriptService.php` `getById` -- `Transcript::where('tenant_id', $tenantId)->find($id)` at query layer, not app layer
+- **Input validation:** `demo-laravel/app/Http/Requests/UploadAudioRequest.php` -- Form Request with `rules()` applied before business logic; controller calls `$request->validated()`
 
 ## Never-Do List
 

@@ -31,13 +31,21 @@ Read the full diff before writing any findings.
 - [ ] Boolean variables/props start with `is`, `has`, or `can`
 - [ ] Test names describe behavior, not function names
 
-### Types (TypeScript)
+### Types (TypeScript) -- [TS] only
 
 - [ ] No bare `any` without an inline comment explaining why `unknown` or a union is insufficient
 - [ ] No `as` type assertions without a comment justifying the cast
 - [ ] Zod schemas present at every API boundary (route handlers that accept external input)
 - [ ] Error caught as `unknown`, narrowed before use -- not caught as `any` or `Error` directly
 - [ ] Return types explicitly annotated on public functions
+
+### Types (PHP 8) -- [PHP] only
+
+- [ ] Return types declared on all public methods (no missing `: string|null`, no bare function)
+- [ ] No `mixed` on a public method signature without an inline justification comment
+- [ ] Nullable types written correctly (`?string`, not `string` where null is possible)
+- [ ] Exceptions caught as specific classes (`\RuntimeException`, not bare `\Throwable` alone) except at a top-level handler
+- [ ] Form Request class used on every controller method that accepts external input (replaces Zod at API boundary)
 
 ### Error Handling
 

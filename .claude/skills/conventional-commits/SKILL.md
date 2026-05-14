@@ -34,10 +34,19 @@ type(scope): description
 
 Match the scope to the module or directory being changed:
 
+**TypeScript scopes:**
 - `transcripts` -- TranscriptsService and related
 - `redact` -- PHI redaction utilities
 - `api` -- API route handlers
 - `logger` -- structured logging
+
+**Laravel/PHP scopes:**
+- `eloquent` -- Eloquent model or migration changes
+- `form-request` -- Form Request validation classes
+- `transcripts` -- TranscriptService (reused across both stacks)
+- `redact` -- PhiRedactor utility (reused across both stacks)
+
+**Agent/tooling scopes (all projects):**
 - `planner` -- planner agent prompt
 - `tdd-tester` -- tdd-tester agent prompt
 - Omit scope when the change spans multiple unrelated modules
@@ -56,6 +65,15 @@ chore: add playwright config for e2e test suite
 docs(api): document tenant isolation requirement on GET endpoint
 
 refactor(transcripts): extract retry logic into runTranscriptionWithRetry
+```
+
+**PHP/Laravel examples:**
+```
+feat(eloquent): add transcripts table migration with tenant_id index
+
+feat(form-request): add UploadAudioRequest with audio_path validation
+
+fix(transcripts): move tenant filter to query layer in getById
 ```
 
 ## Multi-line Body
@@ -77,14 +95,6 @@ the retry loop can distinguish timeouts from other failures.
 3. No "WIP" commits on main
 4. No `--no-verify` to skip hooks
 
-## Co-Author Line (Claude-authored commits)
-
-Always append on a blank line after the body:
-
-```
-Co-Authored-By: Claude <noreply@anthropic.com>
-```
-
 ## Manual Checklist (no tooling)
 
 - [ ] First line is 72 chars or fewer
@@ -93,4 +103,4 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - [ ] Description is imperative mood, lowercase start, no period
 - [ ] No em-dashes anywhere in the message
 - [ ] Body added if why is not obvious
-- [ ] Co-author line added if Claude wrote the code
+- [ ] No Co-Authored-By line for Claude or any agent
