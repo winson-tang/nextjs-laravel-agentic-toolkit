@@ -90,12 +90,17 @@ VERDICT: APPROVE | CONDITIONAL APPROVE (warnings listed) | REQUEST CHANGES (crit
 
 ## Canonical PASS Examples
 
-These files demonstrate patterns that should PASS every check above:
-
+**TypeScript (Next.js / Node):**
 - **PHI in logs:** `demo/app/lib/logger.ts` -- uses `redactValue` on all inputs before emitting
 - **PHI redaction:** `demo/app/lib/redact.ts` -- patterns cover SSN, DOB, MRN, email, phone
 - **Tenant isolation:** `demo/app/lib/transcripts.ts` -- `getById` checks `t.tenantId !== tenantId`
 - **Input validation:** `demo/app/api/appointments/route.ts` -- Zod `UploadSchema.parse(body)` before any business logic
+
+**PHP (Laravel):**
+- **PHI in logs:** `demo-laravel/app/Support/AuditLogger.php` -- all context passes through `PhiRedactor::redactValue()` before `Log::info()`
+- **PHI redaction:** `demo-laravel/app/Support/PhiRedactor.php` -- same pattern set (SSN, DOB, MRN, EMAIL, PHONE) in PHP regex
+- **Tenant isolation:** `demo-laravel/app/Services/TranscriptService.php` -- `getById` uses `Transcript::where('tenant_id', $tenantId)->find($id)` at query layer
+- **Input validation:** `demo-laravel/app/Http/Requests/UploadAudioRequest.php` -- Form Request `rules()` enforced by Laravel before controller body runs; controller calls `$request->validated()`
 
 ---
 

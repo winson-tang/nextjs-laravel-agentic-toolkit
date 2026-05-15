@@ -61,7 +61,7 @@ See `.claude/skills/agent-orchestration/SKILL.md` for the full playbook.
 - **API contracts:** Zod schemas at every boundary in TS; Laravel form requests in PHP.
 - **Auth:** session-based (Sycle has SSO); never roll your own.
 - **Database:** Postgres in new services, MySQL where the legacy lives. Use migrations, never raw `ALTER` in code paths.
-- **Testing:** Jest for unit/integration, Playwright for e2e. Accessibility checks via `@axe-core/playwright` on any page rendering user content.
+- **Testing:** Jest for unit/integration (TS/Node services), Pest/PHPUnit for unit/integration (PHP/Laravel), Playwright for e2e (TS), Laravel Dusk for e2e (PHP). Accessibility checks via `@axe-core/playwright` on any page rendering user content.
 - **Planning files:** `PLAN.md` is the live scratchpad for the current cycle (gitignored). When a feature ships, the planner agent copies the final plan to `plans/YYYY-MM-DD-<feature-slug>.md` before deleting PLAN.md.
 
 ## What to read first
@@ -83,4 +83,4 @@ When starting a session:
 
 ## Attribution
 
-When a human reviewer approves a Claude-authored commit, that reviewer's name goes on the PR, not as a co-author on the commit.
+Do not add `Co-Authored-By` lines for Claude or any agent in commit messages. Claude-authored commits carry no attribution beyond the commit message itself.
