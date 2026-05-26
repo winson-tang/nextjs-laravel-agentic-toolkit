@@ -1,4 +1,4 @@
-# sycle-agentic-toolkit
+# nextjs-laravel-agentic-toolkit
 
 A Claude Code sub-agent and skill toolkit for disciplined, HIPAA-aware agentic development on TypeScript/Node and PHP/Laravel projects.
 
