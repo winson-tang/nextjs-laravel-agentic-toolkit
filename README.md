@@ -1,5 +1,7 @@
 # nextjs-laravel-agentic-toolkit
 
+Author:  Winson Tang (www.winsontang.com)
+
 A Claude Code sub-agent and skill toolkit for disciplined, HIPAA-aware agentic development on TypeScript/Node and PHP/Laravel projects.
 
 It encodes a multi-agent operating model: plan, test, implement, review, audit, document, integrate. Each feature follows the same pipeline regardless of who is driving. When an agent makes a mistake, the fix is two diffs: the code fix and the agent-system fix so the same class of mistake can't recur.
