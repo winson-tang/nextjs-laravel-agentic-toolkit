@@ -11,7 +11,7 @@ It ships with two demo projects so the pipeline can be exercised against real co
 ## What's in here
 
 ```
-sycle-agentic-toolkit/
+nextjs-laravel-agentic-toolkit/
 ├── README.md                      ← you are here
 ├── CLAUDE.md                      ← rules-of-the-road, auto-loaded by Claude Code
 ├── .gitignore
